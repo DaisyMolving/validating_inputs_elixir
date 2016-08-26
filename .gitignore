@@ -16,6 +16,7 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
-#ignore .swp files, and .un~ files
+#ignore .swp files, .exs~  and .un~ files
 *.swp
 *.un~
+*.exs~
