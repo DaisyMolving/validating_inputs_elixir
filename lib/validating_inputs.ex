@@ -57,7 +57,7 @@ defmodule ValidatingInputs do
 		IO.gets(@user_input_requests[category])
 	end
 
-	def retry_for_empty_field(category) do
+	defp retry_for_empty_field(category) do
 		IO.gets("That is an invalid input, #{category} cannot be empty. Please try again: ")
 	end
 
@@ -65,7 +65,7 @@ defmodule ValidatingInputs do
 		IO.gets(@invalid_type_messages[category])
 	end
 
-	def print_no_found_error_message do
+	defp print_no_found_error_message do
 		IO.puts("\nThank you for your information, there were no errors found.")
 	end
 end
