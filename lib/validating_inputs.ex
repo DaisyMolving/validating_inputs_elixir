@@ -31,25 +31,24 @@ defmodule ValidatingInputs do
 
 	def validate_input([]), do: print_no_found_error_message
 	def validate_input([{category, _} | next_input_request]) do
-		validate_not_empty(print_input_request(category), category)
-		validate_input(next_input_request)
+    { String.strip(print_input_request(category)), category }
+    |> validate_not_empty
+    |> validate_type
+    validate_input(next_input_request)
 	end
 
-	def validate_not_empty(user_input, category) do
-		cond do
-			user_input == "" ->
-				validate_not_empty(retry_for_empty_field(category), category)
-			:else ->
-				validate_type(user_input, category)
-		end
+	def validate_not_empty({"", category}) do
+    validate_not_empty({String.strip(retry_for_empty_field(category)), category})
 	end
 
-	def validate_type(user_input, category) do
+  def validate_not_empty(user_input_with_category), do: user_input_with_category
+
+	def validate_type({user_input, category}) do
 		cond do
-			Regex.match?(@validation_matches[category], user_input) ->
+			Regex.match?(@validation_matches[category], String.strip(user_input)) ->
 				user_input
 			:else ->
-				validate_type(retry_for_invalid_type(category), category)
+				validate_type({retry_for_invalid_type(category), category})
 		end
 	end
 
